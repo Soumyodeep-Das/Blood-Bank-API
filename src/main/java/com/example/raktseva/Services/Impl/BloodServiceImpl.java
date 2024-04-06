@@ -53,4 +53,9 @@ public class BloodServiceImpl implements BloodService {
         return this.bloodRepository.findAll();
     }
 
+    @Override
+    public List<Blood> searchByBloodGroup(String blood_group) {
+        return this.bloodRepository.findByBloodGroup(blood_group);
+    }
+
 }

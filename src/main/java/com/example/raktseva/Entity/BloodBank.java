@@ -1,7 +1,9 @@
 package com.example.raktseva.Entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,6 +12,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -23,7 +27,7 @@ public class BloodBank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bank_id;
     private String bank_name;
-    private Boolean bank_login_status;
+    // private Boolean bank_login_status;
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be of 10 digits")
     private String bank_contact_no;
     @Email(regexp = "^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\\.[a-zA-Z._-]{2,}$", message = "Must be a well-formed email address")
@@ -41,6 +45,14 @@ public class BloodBank {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bloodBank") // Fetch Lazy
     private List<Blood> blood = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "BANK_ROLES",
+        joinColumns = @jakarta.persistence.JoinColumn(name = "bank", referencedColumnName = "bank_id"),
+        inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "role", referencedColumnName = "role_id")
+    )
+    private Set<UserRoles> roles = new HashSet<>();
     
     public BloodBank() {
     }
@@ -116,12 +128,12 @@ public class BloodBank {
     public void setBank_password(String bank_password) {
         this.bank_password = bank_password;
     }
-    public Boolean getBank_login_status() {
-        return bank_login_status;
-    }
-    public void setBank_login_status(Boolean bank_login_status) {
-        this.bank_login_status = bank_login_status;
-    }
+    // public Boolean getBank_login_status() {
+    //     return bank_login_status;
+    // }
+    // public void setBank_login_status(Boolean bank_login_status) {
+    //     this.bank_login_status = bank_login_status;
+    // }
     public String getBank_image() {
         return bank_image;
     }
@@ -130,8 +142,7 @@ public class BloodBank {
     }
     @Override
     public String toString() {
-        return "BloodBank [bank_id=" + bank_id + ", bank_name=" + bank_name + ", bank_login_status=" + bank_login_status
-                + ", bank_contact_no=" + bank_contact_no + ", bank_email=" + bank_email + ", bank_license="
+        return "BloodBank [bank_id=" + bank_id + ", bank_name=" + bank_name +  ", bank_contact_no=" + bank_contact_no + ", bank_email=" + bank_email + ", bank_license="
                 + bank_license + ", bank_password=" + bank_password + ", bank_image=" + bank_image + ", bank_address="
                 + bank_address + ", bank_city=" + bank_city + ", bank_district=" + bank_district + ", bank_state="
                 + bank_state + ", bank_country=" + bank_country + ", bank_associatedWith=" + bank_associatedWith + "]";

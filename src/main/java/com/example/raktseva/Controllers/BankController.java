@@ -23,24 +23,25 @@ import com.example.raktseva.Services.BloodService;
 @RestController
 @RequestMapping("/bank")
 public class BankController {
-    
+
     @Autowired
     public BloodRepository bloodRepository;
 
     @Autowired
     private BloodService bloodService;
 
-        // register
+    // register
     @PostMapping
     @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<Blood> addBlood(@RequestBody Blood blood){
+    public ResponseEntity<Blood> addBlood(@RequestBody Blood blood) {
         Blood new_blood = this.bloodService.addBlood(blood);
         return new ResponseEntity<>(new_blood, HttpStatus.CREATED);
     }
+
     // update
     @PutMapping("/{blood_id}")
     @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<Blood> updateBlood(@RequestBody Blood blood, @PathVariable int blood_id){
+    public ResponseEntity<Blood> updateBlood(@RequestBody Blood blood, @PathVariable int blood_id) {
         Blood updated_blood = this.bloodService.updateBlood(blood, blood_id);
         return new ResponseEntity<>(updated_blood, HttpStatus.OK);
     }
@@ -48,16 +49,16 @@ public class BankController {
     // delete
     @DeleteMapping("/{blood_id}")
     @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<Map<String, String>> deleteBlood(@PathVariable int blood_id){
+    public ResponseEntity<Map<String, String>> deleteBlood(@PathVariable int blood_id) {
         this.bloodService.deleteBlood(blood_id);
         Map<String, String> message = Map.of("Message", "Deleted Successfully");
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
     // get single bank
 
-    @GetMapping("/{blood_id}")
+    @GetMapping("/id/{blood_id}")
     @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<Blood> getBlood(@PathVariable int blood_id){
+    public ResponseEntity<Blood> getBlood(@PathVariable int blood_id) {
         Blood blood = this.bloodService.getBloodById(blood_id);
         return new ResponseEntity<>(blood, HttpStatus.OK);
     }
@@ -65,8 +66,16 @@ public class BankController {
 
     @GetMapping()
     @CrossOrigin(origins = "http://localhost:8080")
-    public ResponseEntity<List<Blood>> getAllBlood(){
+    public ResponseEntity<List<Blood>> getAllBlood() {
         List<Blood> all = this.bloodService.getAllBloods();
+        return new ResponseEntity<>(all, HttpStatus.OK);
+    }
+
+    // search by blood group
+    @GetMapping("/group/{blood_group}")
+    @CrossOrigin(origins = "http://localhost:8080")
+    public ResponseEntity<List<Blood>> searchByBloodGroup(@PathVariable String blood_group) {
+        List<Blood> all = this.bloodService.searchByBloodGroup(blood_group);
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
 }

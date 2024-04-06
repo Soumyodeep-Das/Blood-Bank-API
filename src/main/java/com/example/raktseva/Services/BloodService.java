@@ -10,4 +10,5 @@ public interface BloodService {
     void deleteBlood(Integer blood_id);
     Blood getBloodById(Integer blood_id);
     List<Blood> getAllBloods();
+    List<Blood> searchByBloodGroup(String blood_group);
 }
