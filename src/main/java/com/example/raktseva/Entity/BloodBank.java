@@ -1,9 +1,9 @@
 package com.example.raktseva.Entity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+// import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+// import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,13 +12,19 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+// import jakarta.persistence.JoinTable;
+// import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * Represents a blood bank entity.
+ * 
+ * This class contains information about a blood bank, including its ID, name, contact number, email, license, password, image, address, city, district, state, country, and associated hospital.
+ * It also includes a list of blood donations associated with the blood bank.
+ */
 @Entity
 @Table(name = "BLOOD_BANK")
 public class BloodBank {
@@ -46,13 +52,13 @@ public class BloodBank {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bloodBank") // Fetch Lazy
     private List<Blood> blood = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "BANK_ROLES",
-        joinColumns = @jakarta.persistence.JoinColumn(name = "bank", referencedColumnName = "bank_id"),
-        inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "role", referencedColumnName = "role_id")
-    )
-    private Set<UserRoles> roles = new HashSet<>();
+    // @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // @JoinTable(
+    //     name = "BANK_ROLES",
+    //     joinColumns = @jakarta.persistence.JoinColumn(name = "bank", referencedColumnName = "bank_id"),
+    //     inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "role", referencedColumnName = "role_id")
+    // )
+    // private Set<UserRoles> roles = new HashSet<>();
     
     public BloodBank() {
     }
